@@ -92,6 +92,96 @@ namespace RulesEngine.UnitTest
         }
 
         [Fact]
+        public void OnSuccessWithSuccessEventExpressionWithEventTest()
+        {
+            var rulesResultTree = new List<RuleResultTree>()
+            {
+                new RuleResultTree()
+                {
+                    ChildResults = null,
+                    ExceptionMessage = string.Empty,
+                    Input = new object(),
+                    IsSuccess = true,
+                    FormattedSuccessEvent = "22",
+                    Rule = new Rule()
+                    {
+                        RuleName = "Test Rule 1",
+                        SuccessEvent = "$(SuccessEventExpression)",
+                    },
+                    RuleEvaluatedParams = new List<RuleParameter>()
+                    {
+                        new RuleParameter("SuccessEventExpression", "22")
+                    }
+                },
+                new RuleResultTree()
+                {
+                    ChildResults = null,
+                    ExceptionMessage = string.Empty,
+                    Input = new object(),
+                    IsSuccess = false,
+                    Rule = new Rule()
+                    {
+                        RuleName = "Test Rule 2"
+                    }
+                },
+
+            };
+
+            var successEventName = string.Empty;
+
+            rulesResultTree.OnSuccess((eventName) =>
+            {
+                successEventName = eventName;
+            });
+
+            Assert.True(successEventName.Equals("22"));
+        }
+
+        [Fact]
+        public void OnSuccessWithSuccessWithEventAndRuleNameTest()
+        {
+            var rulesResultTree = new List<RuleResultTree>()
+            {
+                new RuleResultTree()
+                {
+                    ChildResults = null,
+                    ExceptionMessage = string.Empty,
+                    Input = new object(),
+                    IsSuccess = true,
+                    Rule = new Rule()
+                    {
+                        RuleName = "Test Rule 1",
+                        SuccessEvent = "Event 1"
+                    }
+                },
+                new RuleResultTree()
+                {
+                    ChildResults = null,
+                    ExceptionMessage = string.Empty,
+                    Input = new object(),
+                    IsSuccess = false,
+                    Rule = new Rule()
+                    {
+                        RuleName = "Test Rule 2"
+                    }
+                },
+
+            };
+
+            var successEventName = string.Empty;
+            var successRuleName = string.Empty;
+
+            rulesResultTree.OnSuccess((eventName, ruleName) =>
+            {
+                successEventName = eventName;
+                successRuleName = ruleName;
+            });
+
+            Assert.True(successEventName.Equals("Event 1"));
+            Assert.True(successRuleName.Equals("Test Rule 1"));
+        }
+
+        [Fact]
         public void OnSuccessWithouSuccessTest()
         {
             var rulesResultTree = new List<RuleResultTree>()

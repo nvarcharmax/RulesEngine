@@ -48,6 +48,12 @@ namespace RulesEngine.Models
         public string ExceptionMessage { get; set; }
 
         /// <summary>
+        /// Gets the formatted success event message
+        /// </summary>
+        public string FormattedSuccessEvent { get; set; }
+
+
+        /// <summary>
         /// Gets or sets the rule evaluated parameters.
         /// </summary>
         /// <value>

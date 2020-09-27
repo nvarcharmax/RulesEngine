@@ -86,6 +86,50 @@
             "Expression": "input2.totalOrders > 15 AND input3.noOfVisitsPerMonth > 25"
           }
         ]
+      },
+      {
+        "RuleName": "GiveDiscount40LocalParamsExample",
+        "SuccessEvent": "40",
+        "ErrorMessage": "One or more adjust rules failed.",
+        "ErrorType": "Error",
+        "localParams": [
+          {
+            "name": "IsLoyaltyFactor3",
+            "expression": "input1.loyalityFactor > 3"
+          },
+          {
+            "name": "IsTotalPurchaseBetween100000And200000",
+            "expression": "input1.totalPurchasesToDate >= 100000 AND input1.totalPurchasesToDate <= 200000"
+          },
+          {
+            "name": "IsTotalOrdersMoreThan10",
+            "expression": "input2.totalOrders > 10"
+          }
+        ],
+        "RuleExpressionType": "LambdaExpression",
+        "Expression": "IsLoyaltyFactor3 AND IsTotalPurchaseBetween100000And200000 AND IsTotalOrdersMoreThan10"
+      },
+      {
+        "RuleName": "GiveCustomDiscountSuccessEventExpressionExample",
+        "SuccessEvent": "$(SuccessEventResult)",
+        "ErrorMessage": "One or more adjust rules failed.",
+        "ErrorType": "Error",
+        "localParams": [
+          {
+            "name": "IsTotalPurchaseLessThan100",
+            "expression": "input1.totalPurchasesToDate <= 100"
+          },
+          {
+            "name": "IsNoOfVisitsMoreThan100",
+            "expression": "input3.noOfVisitsPerMonth > 100"
+          },
+          {
+            "name": "SuccessEventResult",
+            "expression": "IsTotalPurchaseLessThan100 AND input2.currentCartOrderValue < 100 ? 20 : (100 * 20 / input2.currentCartOrderValue)"
+          }
+        ],
+        "RuleExpressionType": "LambdaExpression",
+        "Expression": "IsNoOfVisitsMoreThan100"
       }
     ]
   }

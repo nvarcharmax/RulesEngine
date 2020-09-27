@@ -1,0 +1,51 @@
+{
+  "WorkflowName": "inputWorkflow",
+  "Rules": [
+    {
+      "RuleName": "GiveDiscount10",
+      "SuccessEvent": "10",
+      "ErrorMessage": "One or more adjust rules failed.",
+      "ErrorType": "Error",
+      "RuleExpressionType": "LambdaExpression",
+      "Expression": "input1.country == \"canada\" AND input1.loyalityFactor <= 4"
+    },
+    {
+      "RuleName": "GiveCustomDiscount10And20",
+      "SuccessEvent": "$(Output)",
+      "ErrorType": "Error",
+      "localParams": [
+        {
+          "Name": "IsCanada",
+          "Expression": "input1.country == \"canada\""
+        },
+        {
+          "Name": "Output",
+          "Expression": "10 + Math.Min(10, input1.totalPurchasesToDate / 2000)"
+        }
+      ],
+      "RuleExpressionType": "LambdaExpression",
+      "Expression": "IsCanada AND input1.loyalityFactor <= 5 AND input1.totalPurchasesToDate >= 5000"
+    },
+    {
+      "RuleName": "GiveCustomDiscount20And30",
+      "SuccessEvent": "$(Output)",
+      "ErrorType": "Error",
+      "localParams": [
+        {
+          "Name": "IsCanada",
+          "Expression": "input1.country == \"canada\""
+        },
+        {
+          "Name": "TotalPurchaseRatio",
+          "Expression": "Convert.ToDouble(input1.totalPurchasesToDate) / 3000"
+        },
+        {
+          "Name": "Output",
+          "Expression": "Math.Round(20 + Math.Min(10, TotalPurchaseRatio), 1)"
+        }
+      ],
+      "RuleExpressionType": "LambdaExpression",
+      "Expression": "IsCanada AND input1.loyalityFactor <= 6 AND input1.totalPurchasesToDate >= 5000"
+    }
+  ]
+}

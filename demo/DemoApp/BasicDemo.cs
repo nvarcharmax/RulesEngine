@@ -14,8 +14,8 @@ namespace DemoApp
         public void Run()
         {
             Console.WriteLine($"Running {nameof(BasicDemo)}....");
-            var basicInfo = "{\"name\": \"hello\",\"email\": \"abcy@xyz.com\",\"creditHistory\": \"good\",\"country\": \"canada\",\"loyalityFactor\": 3,\"totalPurchasesToDate\": 10000}";
-            var orderInfo = "{\"totalOrders\": 5,\"recurringItems\": 2}";
+            var basicInfo = "{\"name\": \"hello\",\"email\": \"abcy@xyz.com\",\"creditHistory\": \"good\",\"country\": \"canada\",\"loyalityFactor\": 3,\"totalPurchasesToDate\": 10}";
+            var orderInfo = "{\"totalOrders\": 5,\"recurringItems\": 2,\"currentCartOrderValue\":500}";
             var telemetryInfo = "{\"noOfVisitsPerMonth\": 10,\"percentageOfBuyingToVisit\": 15}";
 
             var converter = new ExpandoObjectConverter();

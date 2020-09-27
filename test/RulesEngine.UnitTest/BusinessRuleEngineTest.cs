@@ -214,6 +214,29 @@ namespace RulesEngine.UnitTest
         }
 
         [Theory]
+        [InlineData("rules9.json")]
+        public void RulesEngine_Execute_Rule_For_Local_Params_Returns_FormattedSuccessEvent(string ruleFileName)
+        {
+            var re = GetRulesEngine(ruleFileName);
+
+            dynamic input1 = GetInput1();
+            dynamic input2 = GetInput2();
+            dynamic input3 = GetInput3();
+
+            input1.loyalityFactor = 5;
+            List<RuleResultTree> result = re.ExecuteRule("inputWorkflow", input1, input2, input3);
+            Assert.NotNull(result);
+            Assert.IsType<List<RuleResultTree>>(result);
+            Assert.Contains(result, c => c.IsSuccess && c.FormattedSuccessEvent == "15");
+
+            input1.loyalityFactor = 6;
+            result = re.ExecuteRule("inputWorkflow", input1, input2, input3);
+            Assert.NotNull(result);
+            Assert.IsType<List<RuleResultTree>>(result);
+            Assert.Contains(result, c => c.IsSuccess && c.FormattedSuccessEvent == "23.3");
+        }
+
+        [Theory]
         [InlineData("rules2.json")]
         public void ExecuteRule_ReturnsProperErrorOnMissingRuleParameter(string ruleFileName)
         {
